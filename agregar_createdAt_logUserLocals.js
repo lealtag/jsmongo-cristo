@@ -1,13 +1,18 @@
-db = db.getSiblingDB('api_production')
+db = db.getSiblingDB('api_development')
 cursor = db.log_user_locals.find();
 while ( cursor.hasNext() ) {
    logClient = cursor.next();
    print("\t "+logClient.client)
-   cursor2 = db.invoices.aggregate([{$match : {_id:{$in : logClient.invoices}}},{ $group: { _id:0, minDate: { $min: "$date"} } }])
-   minD = cursor2.result[0].minDate  
-   logClient.created_at = minD
-   printjson(logClient)
-   db.log_user_locals.save(logClient)
+   if(logClient.invoices.length > 0){
+   	cursor2 = db.invoices.aggregate([{$match : {_id:{$in : logClient.invoices}}},{ $group: { _id:0, minDate: { $min: "$date"} } }])
+   	minD = cursor2.result[0].minDate  
+   	logClient.created_at = minD
+   	printjson(logClient)
+   	db.log_user_locals.save(logClient)
+   }
+   else {
+      print("CLIENTE LOCO")
+   }
 	
 }
 	
