@@ -45,6 +45,7 @@ var cursor = db.log_user_locals.find({"local":localo});
 while (cursor.hasNext()) {
   var x = cursor.next();
   x['_id'] = x['_id'].replace(localo, locald);
+  x['client'] = x['client'].replace(localo, locald);
   x['local'] = locald;
   var arrayLength = x['invoices'].length;
   for (var i = 0; i < arrayLength; i++) {
