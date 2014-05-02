@@ -1,4 +1,4 @@
-db = db.getSiblingDB('api_development')
+db = db.getSiblingDB('api_production')
 cursor = db.log_user_locals.find();
 while ( cursor.hasNext() ) {
    logClient = cursor.next();
