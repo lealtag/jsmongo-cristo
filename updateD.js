@@ -6,10 +6,16 @@ db = db.getSiblingDB("api_production")
 
 
 var hoy = new ISODate();
+hoy.setUTCHours(0,0,0,0);
 var maximaD1 = db.invoices.aggregate({$match:{local:"Demo01"}},{$group:{_id:"chiabe","max":{$max:"$date"}}})['result'][0]['max']
 var maximaD2 = db.invoices.aggregate({$match:{local:"Demo02"}},{$group:{_id:"chiabe","max":{$max:"$date"}}})['result'][0]['max']
-var segundosD1 = ((hoy - maximaD1) / 1000) + 3600*24
-var segundosD2 = ((hoy - maximaD2) / 1000) + 3600*24
+maximaD1.setUTCHours(0,0,0,0);
+maximaD2.setUTCHours(0,0,0,0);
+var segundosD1 = ((hoy - maximaD1) / 1000) 
+var segundosD2 = ((hoy - maximaD2) / 1000)
+
+print(segundosD1);
+print(segundosD2); 
 
 
 var cursor = db.invoices.find({"local":"Demo01"});

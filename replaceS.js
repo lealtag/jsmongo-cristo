@@ -1,3 +1,7 @@
+reg = new RegExp(localo,"g"); 
+
+
+
 mapaPFroyo = {
     "Yogur Helado":"Granjeros",
     "Agua Mineral Minalba 330Ml": "Agua",
@@ -76,12 +80,12 @@ db = db.getSiblingDB(destiny)
 var cursor = db.invoices.find({"local":localo});
 while (cursor.hasNext()) {
   var x = cursor.next();
-  x['_id'] = x['_id'].replace(localo, locald);
-  x['client'] = x['client'].replace(localo, locald);
+  x['_id'] = x['_id'].replace(reg, locald);
+  x['client'] = x['client'].replace(reg, locald);
   x['local'] = locald;
   var arrayLength = x['products'].length;
   for (var i = 0; i < arrayLength; i++) {
-    x['products'][i]['pr'] = x['products'][i]['pr'].replace(localo, locald);
+    x['products'][i]['pr'] = x['products'][i]['pr'].replace(reg, locald);
   }
   x['subtotal'] = x['subtotal'] * multiplicador
   x['tax'] = x['tax'] * multiplicador
@@ -93,7 +97,7 @@ while (cursor.hasNext()) {
 var cursor = db.products.find({"local":localo});
 while (cursor.hasNext()) {
   var x = cursor.next();
-  x['_id'] = x['_id'].replace(localo, locald);
+  x['_id'] = x['_id'].replace(reg, locald);
   x['local'] = locald;
   db.products.insert(x)
 }
@@ -112,7 +116,7 @@ if (localo == "Froyo01") {
 var cursor = db.log_invoices.find({"local":localo});
 while (cursor.hasNext()) {
   var x = cursor.next();
-  x['_id'] = x['_id'].replace(localo, locald);
+  x['_id'] = x['_id'].replace(reg, locald);
   x['local'] = locald;
   for (var i = 0; i < 24; i++) {
     if (!!x[i]){
@@ -127,8 +131,8 @@ while (cursor.hasNext()) {
 var cursor = db.log_products.find({"local":localo});
 while (cursor.hasNext()) {
   var x = cursor.next();
-  x['_id'] = x['_id'].replace(localo, locald);
-  x['product'] = x['product'].replace(localo, locald);
+  x['_id'] = x['_id'].replace(reg, locald);
+  x['product'] = x['product'].replace(reg, locald);
   x['local'] = locald;
   for (var i = 0; i < 24; i++) {
     if (!!x[i]){
@@ -143,11 +147,12 @@ while (cursor.hasNext()) {
 var cursor = db.log_user_locals.find({"local":localo});
 while (cursor.hasNext()) {
   var x = cursor.next();
-  x['_id'] = x['_id'].replace(localo, locald);
+  x['_id'] = x['_id'].replace(reg, locald);
+  x['client'] = x['client'].replace(reg, locald);
   x['local'] = locald;
   var arrayLength = x['invoices'].length;
   for (var i = 0; i < arrayLength; i++) {
-    x['invoices'][i] = x['invoices'][i].replace(localo, locald);
+    x['invoices'][i] = x['invoices'][i].replace(reg, locald);
   }
   x['totalAmmount'] = x['totalAmmount'] * multiplicador
   db.log_user_locals.insert(x)
